@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — CAVEMASTERS</title>
+  <meta name="description" content="Get in touch with the Neon Arcade team." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">CAVE<span>MASTERS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="games.html">Games</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <button class="nav-mobile-toggle" id="mobileToggle">&#9776;</button>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="index.html">Home</a>
+    <a href="games.html">Games</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <main id="app">
+    <div class="contact-page">
+      <div class="container">
+
+        <div style="text-align:center;padding:4rem 0 3rem">
+          <p class="section-label" style="justify-content:center">Get in Touch</p>
+          <h1 class="section-title" style="font-size:2.5rem">Contact <span>Us</span></h1>
+          <p style="color:var(--text-muted);max-width:500px;margin:0 auto;font-size:0.9rem">Found a bug? Have an idea? Just want to say hi? We're all ears.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <div class="info-icon">📡</div>
+              <div><div class="info-label">Sector</div><div class="info-value">The Internet</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="info-icon">📻</div>
+              <div><div class="info-label">Transmission</div><div class="info-value">Open 24/7 — We never sleep (the servers don't either)</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="info-icon">⚡</div>
+              <div><div class="info-label">Response Time</div><div class="info-value">Warp Speed (usually)</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="info-icon">🕹️</div>
+              <div><div class="info-label">Easter Egg</div><div class="info-value" style="font-size:0.75rem">Try the Konami code: ↑↑↓↓←→←→BA</div></div>
+            </div>
+          </div>
+
+          <div class="contact-form" id="contact-form-wrap">
+            <form id="contact-form" onsubmit="submitContact(event)">
+              <div class="form-row">
+                <div class="form-group"><label>Name</label><input type="text" id="cf-name" placeholder="Your handle" data-testid="input-cf-name" /></div>
+                <div class="form-group"><label>Email</label><input type="text" id="cf-email" placeholder="your@email.com" data-testid="input-cf-email" /></div>
+              </div>
+              <div class="form-group">
+                <label>Subject</label>
+                <select id="cf-subject" data-testid="select-cf-subject">
+                  <option value="">Select a subject...</option>
+                  <option value="bug">Bug Report</option>
+                  <option value="feature">Feature Request</option>
+                  <option value="score">High Score Dispute</option>
+                  <option value="general">General Feedback</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Message</label><textarea id="cf-message" placeholder="Tell us everything..." data-testid="textarea-cf-message"></textarea></div>
+              <div id="cf-error" style="color:var(--magenta);font-size:0.8rem;margin-bottom:1rem;display:none"></div>
+              <button type="submit" class="btn btn-primary" style="width:100%" data-testid="btn-cf-submit">Send Message</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>CAVEMASTERS &copy; 2025 &mdash; 10 GAMES. ZERO QUARTERS. INFINITE PLAY.</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    function submitContact(e) {
+      e.preventDefault();
+      const name = document.getElementById('cf-name').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const subject = document.getElementById('cf-subject').value;
+      const msg = document.getElementById('cf-message').value.trim();
+      const err = document.getElementById('cf-error');
+      if (!name || !email || !subject || !msg) {
+        err.style.display = 'block';
+        err.textContent = 'Please fill in all fields.';
+        return;
+      }
+      if (!email.includes('@')) {
+        err.style.display = 'block';
+        err.textContent = 'Please enter a valid email address.';
+        return;
+      }
+      err.style.display = 'none';
+      document.getElementById('contact-form-wrap').innerHTML = `
+        <div class="success-screen">
+          <span class="success-icon">📡</span>
+          <div class="success-title">MESSAGE<br>TRANSMITTED!</div>
+          <div class="success-sub">We received your message and will respond at warp speed. Thanks for playing!</div>
+          <button class="btn btn-secondary" onclick="window.location.reload()" data-testid="btn-cf-reset">Send Another</button>
+        </div>`;
+    }
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@ var GAMES = [
   { id:'snake',   name:'SNAKE',         icon:'🐍', tag:'ARCADE',   desc:'Classic snake with neon visuals. Use arrow keys or WASD. Speed increases every 5 points.',      lsKey:'arcade_snake_best' },
   { id:'ttt',     name:'TIC-TAC-TOE',   icon:'⭕', tag:'CLASSIC',  desc:'Three in a row wins. Can you beat the CPU? Build your win streak.',                             lsKey:'arcade_ttt_best' },
   { id:'scramble',name:'WORD SCRAMBLE', icon:'🔤', tag:'WORD',     desc:'Unscramble 10 words before time runs out. 30 seconds per word — fast fingers win.',             lsKey:'arcade_scramble_best' },
-  { id:'mole',    name:'WHACK-A-MOLE',  icon:'🔨', tag:'ACTION',   desc:'Moles pop up, you smash them. 30 seconds on the clock. How many can you hit?',                 lsKey:'arcade_mole_best' },
+  { id:'mole',    name:'WHACK-A-TROLL',  icon:'🔨', tag:'ACTION',   desc:'Moles pop up, you smash them. 30 seconds on the clock. How many can you hit?',                 lsKey:'arcade_mole_best' },
   { id:'math',    name:'MATH BLASTER',  icon:'🧮', tag:'BRAIN',    desc:'Answer math equations as fast as you can in 60 seconds. Difficulty ramps up as you score.',    lsKey:'arcade_math_best' },
   { id:'chess',    name:'CHESS',          icon:'♟', tag:'STRATEGY', desc:'Full chess against the AI. Real move validation, real engine. Can you checkmate it?',              lsKey:null },
   { id:'password', name:'PASSWORD CRACKER',icon:'🔐',tag:'PUZZLE',   desc:'Decode the mystery password using hints before the clock hits zero. More time = more points.',     lsKey:null },
@@ -801,11 +801,11 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ============================================================
-// GAME: WHACK-A-MOLE
+// GAME: WHACK-A-TROLL
 // ============================================================
 function renderMole() {
   var best = localStorage.getItem('arcade_mole_best');
-  return gameWrapper('WHACK-A-MOLE', '<div style="text-align:center">' +
+  return gameWrapper('WHACK-A-TROLL', '<div style="text-align:center">' +
     '<div style="display:flex;gap:1rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap">' +
       '<div class="stat-pill"><span class="pill-val" id="mol-score">0</span><span class="pill-label">Score</span></div>' +
       '<div class="stat-pill"><span class="pill-val" id="mol-time">30</span><span class="pill-label">Sec Left</span></div>' +

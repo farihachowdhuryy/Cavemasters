@@ -73,7 +73,7 @@
     {
       triggers: ['game', 'games', 'play', 'what', 'available', 'list'],
       replies: [
-        "Cave Masters has 13 great games:  Rock Paper Scissors,  Number Guess, Memory Match, Coin Clicker, Speed Test, Snake, Tic-Tac-Toe, Word Scramble, Whack-A-Mole, Math Blaster, Chess, Password Cracker, and Neon Quiz! Head to the Games page to jump in!"
+        "Cave Masters has 14 great games:  Rock Paper Scissors,  Number Guess, Memory Match, Coin Clicker, Speed Test, Snake, Tic-Tac-Toe, Word Scramble, Whack-A-Troll, Math Blaster, Chess, Password Cracker, Neon Quiz, and Neon Breakout! Head to the Games page to jump in!"
       ]
     },
     {

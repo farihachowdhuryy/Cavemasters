@@ -726,30 +726,39 @@ function renderScramble() {
 }
 
 window.initScramble = function() {
-  if (window._sc && window._sc.timer) clearInterval(window._sc.timer);
+  if (window._sc) {
+    if (window._sc.timer) clearInterval(window._sc.timer);
+    if (window._sc.advanceTimer) clearTimeout(window._sc.advanceTimer);
+  }
   var pool = WORDS.slice().sort(function() { return Math.random() - 0.5; }).slice(0, 10);
-  window._sc = { words:pool, idx:0, score:0, timer:null, timeLeft:30, done:false };
+  window._sc = { words:pool, idx:0, score:0, timer:null, advanceTimer:null, timeLeft:30, done:false, revealing:false };
   document.getElementById('sc-done').style.display = 'none';
   document.getElementById('sc-score').textContent = '0';
   document.getElementById('sc-word').textContent = '1/10';
+  document.getElementById('sc-time').textContent = '30';
+  document.getElementById('sc-bar').style.width = '100%';
+  document.getElementById('sc-bar').classList.remove('urgent');
   document.getElementById('sc-input').disabled = false;
   showScramble();
   window._sc.timer = setInterval(function() {
     var s = window._sc;
-    if (!s || s.done) return;
+    if (!s || s.done || s.revealing) return;
     s.timeLeft--;
     var el = document.getElementById('sc-time'); if (el) el.textContent = s.timeLeft;
     var bar = document.getElementById('sc-bar'); if (bar) { bar.style.width = (s.timeLeft/30*100) + '%'; if (s.timeLeft < 10) bar.classList.add('urgent'); }
     if (s.timeLeft <= 0) {
       var fb = document.getElementById('sc-feedback'); if (fb) { fb.style.color = 'var(--magenta)'; fb.textContent = 'TIME! Answer: ' + s.words[s.idx]; }
-      s.timeLeft = 30; if (bar) { bar.style.width = '100%'; bar.classList.remove('urgent'); }
-      s.idx++;
-      if (s.idx >= s.words.length) { endScramble(); return; }
-      document.getElementById('sc-word').textContent = (s.idx+1) + '/10';
-      showScramble();
+      s.revealing = true;
+      var inp = document.getElementById('sc-input'); if (inp) inp.disabled = true;
+      s.advanceTimer = setTimeout(function() {
+        if (window._sc === s && !s.done) advanceScramble();
+      }, 1600);
     }
   }, 1000);
-  setCleanup(function() { if (window._sc && window._sc.timer) clearInterval(window._sc.timer); });
+  setCleanup(function() {
+    if (window._sc && window._sc.timer) clearInterval(window._sc.timer);
+    if (window._sc && window._sc.advanceTimer) clearTimeout(window._sc.advanceTimer);
+  });
 };
 
 function showScramble() {
@@ -757,7 +766,24 @@ function showScramble() {
   var w = s.words[s.idx];
   document.getElementById('sc-scrambled').textContent = scrambleWord(w);
   document.getElementById('sc-feedback').textContent = '';
-  var inp = document.getElementById('sc-input'); if (inp) { inp.value = ''; inp.focus(); }
+  var inp = document.getElementById('sc-input'); if (inp) { inp.value = ''; inp.disabled = false; inp.focus(); }
+}
+
+function advanceScramble() {
+  var s = window._sc;
+  if (!s || s.done || !s.revealing) return;
+  if (s.advanceTimer) {
+    clearTimeout(s.advanceTimer);
+    s.advanceTimer = null;
+  }
+  s.revealing = false;
+  s.idx++;
+  if (s.idx >= s.words.length) { endScramble(); return; }
+  document.getElementById('sc-word').textContent = (s.idx+1) + '/10';
+  s.timeLeft = 30;
+  var el = document.getElementById('sc-time'); if (el) el.textContent = 30;
+  var bar = document.getElementById('sc-bar'); if (bar) { bar.style.width = '100%'; bar.classList.remove('urgent'); }
+  showScramble();
 }
 
 function endScramble() {
@@ -774,7 +800,7 @@ function endScramble() {
 
 window.submitScramble = function() {
   var s = window._sc;
-  if (!s || s.done) return;
+  if (!s || s.done || s.revealing) return;
   var inp = document.getElementById('sc-input');
   var val = inp.value.trim().toUpperCase();
   if (!val) return;
@@ -791,8 +817,12 @@ window.submitScramble = function() {
     if (fb) { fb.style.color = 'var(--green)'; fb.textContent = 'CORRECT!'; }
     showScramble();
   } else {
-    if (fb) { fb.style.color = 'var(--magenta)'; fb.textContent = 'WRONG!'; }
-    inp.value = '';
+    if (fb) { fb.style.color = 'var(--magenta)'; fb.textContent = 'WRONG! Answer: ' + correct; }
+    s.revealing = true;
+    inp.disabled = true;
+    s.advanceTimer = setTimeout(function() {
+      if (window._sc === s && !s.done) advanceScramble();
+    }, 1600);
   }
 };
 

@@ -688,7 +688,7 @@ window.tttMove = function(idx) {
 // ============================================================
 // GAME: WORD SCRAMBLE
 // ============================================================
-var WORDS = ['PIXEL','ARCADE','CLASSIC','BOOST','SCORE','STREAK','QUEST','ENERGY','VORTEX','ROCKET','POWER','LEVELS','VICTORY','BOOST','SIMPLE','GLITCH','BUREAU','AVENUE','COPPER','BEAUTY','BONUS','EDITOR','DESERT','LETTER','CACTUS','PARENT','ELEVEN'];
+var WORDS = ['TRIANGLE','TREASURE','JOURNEY','MYSTERY','FANTASTY','OXYGEN','QUEST','ENERGY','VORTEX','PROBLEM','POWER','LEVELS','VICTORY','NERVOUS','SIMPLE','WHISPER','BUREAU','AVENUE','HARVEST','BEAUTY','COURAGE','EDITOR','DESERT','LETTER','CACTUS','PARENT','ELEVEN'];
 
 function scrambleWord(w) {
   var a = w.split('');
